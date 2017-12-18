@@ -11,11 +11,12 @@ object Discord {
   implicit val ec = system.dispatcher
   val config = ConfigFactory.load().getConfig("discord")
   val messages = config.getConfig("messages")
+  val webHookUri = config.getString("webhook")
 
   def sendMessage(name: String): Unit = {
     if (messages.hasPath(name)) {
       Http().singleRequest(Post(
-        config.getString("webhook"),
+        webHookUri,
         HttpEntity(MediaTypes.`application/json`, s"${messages.getConfig(name).root().render(ConfigRenderOptions.concise())}")
       ))
     }
