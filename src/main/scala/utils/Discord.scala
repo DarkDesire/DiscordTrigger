@@ -13,7 +13,6 @@ object Discord {
   val messages = config.getConfig("messages")
 
   def sendMessage(name: String): Unit = {
-    println(name)
     if (messages.hasPath(name)) {
       Http().singleRequest(Post(
         config.getString("webhook"),
